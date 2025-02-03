@@ -1,1 +1,19 @@
+from flask import Flask, request, jsonify
+import google.generativeai as genai
+from flask_cors import CORS
+import os
+
+app = Flask(__name__)
+CORS(app)
+
+genai.configure(api_key=os.getenv("AIzaSyCMDYyw4DY5Hw5Afmybfqt_VSZ63mTgxGI"))
+
+@app.route('/chat', methods=['POST'])
+def chat():
+    user_message = request.json['message']
+    response = genai.chat(user_message)
+    return jsonify({"reply": response})
+
+if __name__ == '__main__':
+    app.run(port=5000, debug=True)
 
